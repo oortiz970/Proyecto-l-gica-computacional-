@@ -1,0 +1,49 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+	char municipio[30], departamento[30];
+	int poblacion, hombres;
+	float edadPromedio, ingresoPromedio, temperaturaMedia;
+
+	cout << "Nombre del municipio: \n ";
+	cin >> municipio;
+	cout << "Departamento: \n ";
+	cin >> departamento;
+	cout << "Poblacion total: \n ";
+	cin >> poblacion;
+	cout << "Cantidad de hombres: \n ";
+	cin >> hombres;
+	cout << "Edad promedio:\n ";
+	cin >> edadPromedio;
+	cout << "Ingreso promedio: \n";
+	cin >> ingresoPromedio;
+	cout << "Temperatura media:\n ";
+	cin >> temperaturaMedia;
+
+	int mujeres = poblacion - hombres;
+
+	cout << "\nDatos del municipio:\n";
+	cout << "Municipio: " << municipio << "\nDepartamento: " << departamento << "\n";
+	cout << "Poblacion: " << poblacion << " (Hombres: " << hombres << ", Mujeres: " << mujeres << ")\n";
+	cout << "Edad promedio: " << edadPromedio << "\nIngreso promedio: " << ingresoPromedio << "\n";
+	cout << "Temperatura media: " << temperaturaMedia << "\n";
+
+	int filas = poblacion;
+	if (filas > 10) filas = 10;
+
+	cout << "\nTriC!ngulo de Pascal:\n";
+
+	for (int i = 0; i < filas; i++) {
+		int val = 1;
+		for (int j = 0; j <= i; j++) {
+			cout << val << " ";
+			val = val * (i - j) / (j + 1);
+		}
+		cout << "\n";
+	}
+	cout << "\nFilas del triángulo = Número de habitantes (población)\n";
+	cout << " Números dentro del triángulo = Combinaciones que simbolizan variedad";
+
+	return 0;
+}
