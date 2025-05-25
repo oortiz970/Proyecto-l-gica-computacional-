@@ -31,12 +31,27 @@ struct Municipio {
     float ingresoPromedio;
 
     void ingresarDatos() {
-        cout << "Población total: ";
-        cin >> poblacionTotal;
-        cout << "Cantidad de hombres: ";
-        cin >> cantidadHombres;
+        // Validación para población total
+        do {
+            cout << "Población total: ";
+            cin >> poblacionTotal; // Atributo 1
+            if (poblacionTotal <= 0) {
+                cout << "¡Error! La población total debe ser un valor positivo mayor a 0.\n";
+            }
+        } while (poblacionTotal <= 0);
+
+        // Validación para cantidad de hombres
+        do {
+            cout << "Cantidad de hombres: ";
+            cin >> cantidadHombres; // Atributo 2
+            if (cantidadHombres < 0 || cantidadHombres > poblacionTotal) {
+                cout << "¡Error! La cantidad de hombres no puede ser negativa ni mayor que la población total.\n";
+            }
+        } while (cantidadHombres < 0 || cantidadHombres > poblacionTotal);
+
         cout << "Edad promedio: ";
         cin >> edadPromedio;
+
         cout << "Ingreso promedio: ";
         cin >> ingresoPromedio;
     }
@@ -204,4 +219,3 @@ int main() {
 
     return 0;
 }
-
