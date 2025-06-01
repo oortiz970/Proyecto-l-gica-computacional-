@@ -1,0 +1,224 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+const string DEPARTAMENTOS[] = {
+    "Amazonas", "Antioquia", "Arauca", "Atlántico", "Bolívar",
+    "Boyacá", "Caldas", "Caquetá", "Casanare", "Cauca",
+    "Cesar", "Chocó", "Córdoba", "Cundinamarca", "Guainía",
+    "Guajira", "Guaviare", "Huila", "Magdalena", "Meta",
+    "Nariño", "Norte de Santander", "Putumayo", "Quindío", "Risaralda",
+    "San Andrés y Providencia", "Santander", "Sucre", "Tolima", "Valle del Cauca",
+    "Vaupés", "Vichada"
+};
+const int NUM_DEPARTAMENTOS = 33;
+
+const string MUNICIPIOS[NUM_DEPARTAMENTOS][2] = {
+    {"Leticia", "Puerto Nariño"}, {"Medellín", "Envigado"}, {"Arauca", "Arauquita"}, {"Barranquilla", "Soledad"}, {"Cartagena", "Magangué"},
+    {"Tunja", "Duitama"}, {"Manizales", "Villamaría"}, {"Florencia", "Milán"}, {"Yopal", "Villanueva"}, {"Popayán", "Santander de Quilichao"},
+    {"Valledupar", "Aguachica"}, {"Quibdó", "Istmina"}, {"Montería", "Lorica"}, {"Bogotá", "Soacha"}, {"Inírida", "Barranco Minas"},
+    {"Riohacha", "Maicao"}, {"San José del Guaviare", "Calamar"}, {"Neiva", "Pitalito"}, {"Santa Marta", "Ciénaga"}, {"Villavicencio", "Acacías"},
+    {"Pasto", "Tumaco"}, {"Cúcuta", "Ocaña"}, {"Mocoa", "Puerto Asís"}, {"Armenia", "Montenegro"}, {"Pereira", "Dosquebradas"},
+    {"San Andrés", "Providencia"}, {"Bucaramanga", "Floridablanca"}, {"Sincelejo", "Corozal"}, {"Ibagué", "Espinal"}, {"Cali", "Palmira"},
+    {"Mitú", "Carurú"}, {"Puerto Carreño", "La Primavera"}
+};
+
+struct Municipio {
+    string nombre;
+    int poblacionTotal;
+    int cantidadHombres;
+    float edadPromedio;
+    float ingresoPromedio;
+
+    void ingresarDatos() {
+        // Validación para población total
+        do {
+            cout << "Población total: ";
+            cin >> poblacionTotal; // Atributo 1
+            if (poblacionTotal <= 0) {
+                cout << "¡Error! La población total debe ser un valor positivo mayor a 0.\n";
+            }
+        } while (poblacionTotal <= 0);
+
+        // Validación para cantidad de hombres
+        do {
+            cout << "Cantidad de hombres: ";
+            cin >> cantidadHombres; // Atributo 2
+            if (cantidadHombres < 0 || cantidadHombres > poblacionTotal) {
+                cout << "¡Error! La cantidad de hombres no puede ser negativa ni mayor que la población total.\n";
+            }
+        } while (cantidadHombres < 0 || cantidadHombres > poblacionTotal);
+
+        cout << "Edad promedio: ";
+        cin >> edadPromedio;
+
+        cout << "Ingreso promedio: ";
+        cin >> ingresoPromedio;
+    }
+
+    void mostrarDatos() const {
+        cout << "Nombre: " << nombre << endl;
+        cout << "Población total: " << poblacionTotal << endl;
+        cout << "Cantidad de hombres: " << cantidadHombres << endl;
+        cout << "Cantidad de mujeres: " << (poblacionTotal - cantidadHombres) << endl;
+        cout << "Edad promedio: " << edadPromedio << endl;
+        cout << "Ingreso promedio: " << ingresoPromedio << endl;
+    }
+};
+
+struct Departamento {
+    string nombre;
+    Municipio municipio;
+
+    void ingresarDatos(int depIndex, int munIndex) {
+        nombre = DEPARTAMENTOS[depIndex];
+        municipio.nombre = MUNICIPIOS[depIndex][munIndex];
+        municipio.ingresarDatos();
+    }
+
+    void mostrarDatos() const {
+        cout << "\nDepartamento: " << nombre << endl;
+        municipio.mostrarDatos();
+    }
+};
+
+int main() {
+    const int MAX = 100;
+    Departamento departamentos[MAX];
+    int totalDepartamentos = 0;
+    int opcion;
+
+    string nombreUsuario;
+    cout << "\n";
+    cout << "   Bienvenido al Sistema de Censos\n";
+    cout << "\n";
+    cout << "Desarrollado por:\n";
+    cout << "Olga Ortiz, Juliana Guerrero y Yonatan Vaquiro";
+    cout << "\n";
+    cout << "\n Por favor, ingrese su nombre: ";
+    getline(cin, nombreUsuario);
+
+    cout << "\n¡Hola, " << nombreUsuario << "! Bienvenido al sistema.\n";
+
+    do {
+        cout << "\n";
+        cout << "Hola " << nombreUsuario << ", elige una opción:\n";
+        cout << "\n";
+        cout << "1. Agregar un municipio\n";
+        cout << "2. Ver todos los municipios\n";
+        cout << "3. Buscar departamento de un municipio\n";
+        cout << "4. Consultar departamentos con ingreso mayor a un valor\n";
+        cout << "5. Consultar departamentos con población igual a un valor\n";
+        cout << "6. Ver total del censo por departamento\n";
+        cout << "7. Ver total del censo nacional\n";
+        cout << "8. Salir\n";
+        cout << "Seleccione una opción: ";
+        cin >> opcion;
+
+        switch (opcion) {
+            case 1: {
+                if (totalDepartamentos >= MAX) {
+                    cout << "Límite de registros alcanzado.\n";
+                    break;
+                }
+
+                cout << "\nSeleccione un departamento:\n";
+                for (int i = 0; i < NUM_DEPARTAMENTOS; i++) {
+                    cout << i + 1 << ". " << DEPARTAMENTOS[i] << endl;
+                }
+
+                int depIndex;
+                do {
+                    cout << "Ingrese número de departamento: ";
+                    cin >> depIndex;
+                } while (depIndex < 1 || depIndex > NUM_DEPARTAMENTOS);
+                depIndex--;
+
+                cout << "1. " << MUNICIPIOS[depIndex][0] << "\n";
+                cout << "2. " << MUNICIPIOS[depIndex][1] << "\n";
+
+                int munIndex;
+                do {
+                    cout << "Seleccione municipio (1 o 2): ";
+                    cin >> munIndex;
+                } while (munIndex < 1 || munIndex > 2);
+                munIndex--;
+
+                departamentos[totalDepartamentos].ingresarDatos(depIndex, munIndex);
+                totalDepartamentos++;
+                break;
+            }
+
+            case 2:
+                for (int i = 0; i < totalDepartamentos; i++) {
+                    departamentos[i].mostrarDatos();
+                }
+                break;
+
+            case 3: {
+                string nombre;
+                cout << "Ingrese nombre del municipio: ";
+                cin >> nombre;
+                bool encontrado = false;
+                for (int i = 0; i < totalDepartamentos; i++) {
+                    if (departamentos[i].municipio.nombre == nombre) {
+                        cout << "Pertenece al departamento: " << departamentos[i].nombre << endl;
+                        encontrado = true;
+                        break;
+                    }
+                }
+                if (!encontrado) cout << "Municipio no encontrado." << endl;
+                break;
+            }
+
+            case 4: {
+                float ingreso;
+                cout << "Ingrese valor mínimo de ingreso: ";
+                cin >> ingreso;
+                for (int i = 0; i < totalDepartamentos; i++) {
+                    if (departamentos[i].municipio.ingresoPromedio > ingreso) {
+                        cout << departamentos[i].nombre << endl;
+                    }
+                }
+                break;
+            }
+
+            case 5: {
+                int poblacion;
+                cout << "Ingrese población exacta: ";
+                cin >> poblacion;
+                for (int i = 0; i < totalDepartamentos; i++) {
+                    if (departamentos[i].municipio.poblacionTotal == poblacion) {
+                        cout << departamentos[i].nombre << endl;
+                    }
+                }
+                break;
+            }
+
+            case 6:
+                for (int i = 0; i < totalDepartamentos; i++) {
+                    cout << departamentos[i].nombre << ": " << departamentos[i].municipio.poblacionTotal << " personas" << endl;
+                }
+                break;
+
+            case 7: {
+                int total = 0;
+                for (int i = 0; i < totalDepartamentos; i++) {
+                    total += departamentos[i].municipio.poblacionTotal;
+                }
+                cout << "Población total nacional: " << total << endl;
+                break;
+            }
+
+            case 8:
+                cout << "Gracias por usar el sistema, " << nombreUsuario << ". ¡Hasta pronto!\n";
+                break;
+
+            default:
+                cout << "Opción inválida." << endl;
+        }
+
+    } while (opcion != 8);
+
+ return 0;
+}
